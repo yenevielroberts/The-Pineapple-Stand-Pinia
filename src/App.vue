@@ -8,9 +8,9 @@ import { useCartStore } from "@/stores/useCartStore";
 
 const productStore=useProductStore()//Esto devuelve todo lo que tenga dentro de mi store. Accedo a todo lo que esta dentro de mi store
 productStore.fill()//Llamo la función que hice en el useProductStore
-const cartStore=useCartStore()
 const {productsRef}=storeToRefs(useProductStore())//La función storeToRef necesita variables reactivas, cojo el array que retorno en useProductStore
 
+const cartStore=useCartStore()
 </script>
 
 <template>
@@ -22,8 +22,9 @@ const {productsRef}=storeToRefs(useProductStore())//La función storeToRef neces
         v-for="product in productsRef"
         :key="product.name"
         :product="product"
-        @addToCart="cartStore.items.push(product)"
+        @addToCart="cartStore.addItemCart($event, product)"
       />
+      <!--$event contiene la información del evento, la que envio donde defino el emit-->
     </ul>
   </div>
 </template>
