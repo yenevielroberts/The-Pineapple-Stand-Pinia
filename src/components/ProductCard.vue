@@ -22,6 +22,7 @@ const count = ref(0);
       <div class="text-center m-4">
         <AppCountInput v-model="count" />
       </div>
+      <!--count=0 pone el numero a 0 despues de añadir al carrito-->
       <AppButton
         class="primary" @click="$emit('addToCart', count), (count = 0)">Add to Cart</AppButton>
     </div>
