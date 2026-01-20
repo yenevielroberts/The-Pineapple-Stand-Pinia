@@ -14,15 +14,17 @@ const carStore=useCartStore()
     <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700" />
-      <div class="cart-count absolute">10</div>
+      <div class="cart-count absolute">{{ carStore.count }}</div>
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
-      <div>
+      <div v-if="!carStore.isEmpty">
         <ul class="items-in-cart">
           <CartItem 
-          v-for="item in carStore.items" :key="item.name"
-            :product="{ name: 'Dried Pineapple', price: 5 }"
+          v-for="(items,name) in carStore.grouped" 
+            :key="name"
+            :product="items[0]"
+            :count="items.length"
             @updateCount=""
             @clear=""
           />
@@ -36,7 +38,7 @@ const carStore=useCartStore()
         </div>
       </div>
       <!-- Uncomment and use condition to show when cart is empty -->
-      <!-- <div><em>Cart is Empty</em></div> -->
+      <div v-else><em>Cart is Empty</em></div>
     </AppModalOverlay>
   </div>
 </template>
