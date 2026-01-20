@@ -24,10 +24,19 @@ export const useCartStore = defineStore('CartStore', () => {
         }
     }
 
-
     //Función  que vacia el carrito
     function $reset() {
         items.value = []
     }
-    return { items, addItemCart, count, isempty, grouped, $reset, total }//Sin {} retorna todo el store
+
+    //Hago una comparación y si son diferentes lo guardo en items.value
+    const clearItem = (itemName) => (items.value = items.value.filter((item) => item.name != itemName))
+
+    const setItemCount = (item, count) => {
+        //Actualizo mi lista, primero borro lo viejo y luego pongo lo que me ha dado
+        clearItem(item.name)
+        addItemCart(count, item)
+    }
+
+    return { items, addItemCart, count, isempty, grouped, $reset, total, clearItem, setItemCount }//Sin {} retorna todo el store
 })
