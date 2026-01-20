@@ -11,7 +11,16 @@ export const useCartStore = defineStore('CartStore', () => {
     //GETTERS
     const count = computed(() => items.value.length)
     const isempty = computed(() => items.value === 0)//de vuelve un true o false
-    const grouped = computed(() => groupBy(items.value, (item) => item.name))//primero argumento, el valor por el que quiero agrupar
+    const grouped = computed(() => {
+        //primero argumento, el valor por el que quiero agrupar
+        const grouped = groupBy(items.value, (item) => item.name)
+        //Creo un objecto con las keys(los nombre de los items)
+        const sorted = Object.keys(grouped).sort()
+        let inOrder = {}
+        sorted.forEach((key) => (inOrder[key] = grouped[key]))
+
+        return inOrder
+    })
     const total = computed(() => items.value.reduce((acumulador, elemento) => acumulador + elemento.price, 0))
     //ACTION
     //El primero argumento es lo que envio desde el emit y el segundo la del $event
