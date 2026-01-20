@@ -10,9 +10,9 @@ export const useCartStore = defineStore('CartStore', () => {
 
     //GETTERS
     const count = computed(() => items.value.length)
-    const isEmpty = computed(() => items.value === 0)//de vuelve un true o false
+    const isempty = computed(() => items.value === 0)//de vuelve un true o false
     const grouped = computed(() => groupBy(items.value, (item) => item.name))//primero argumento, el valor por el que quiero agrupar
-
+    const total = computed(() => items.value.reduce((acumulador, elemento) => acumulador + elemento.price, 0))
     //ACTION
     //El primero argumento es lo que envio desde el emit y el segundo la del $event
     function addItemCart(numItems, item) {
@@ -23,5 +23,11 @@ export const useCartStore = defineStore('CartStore', () => {
             items.value.push(item)//Envio los productos al array de useCarStore
         }
     }
-    return { items, addItemCart, count, isEmpty, grouped }//Sin {} retorna todo el store
+
+
+    //Función  que vacia el carrito
+    function $reset() {
+        items.value = []
+    }
+    return { items, addItemCart, count, isempty, grouped, $reset, total }//Sin {} retorna todo el store
 })
